@@ -1,5 +1,5 @@
 /**
- * @dsh-external/dsh-updater — host 侧：官方版本检测 + 全自动升级
+ * @wizzy/dsh-updater — host 侧：官方版本检测 + 全自动升级
  *
  * 数据源：
  * - 官方 GitHub 仓库 deepseek-ai/deepseek-harness 的 `dsh-v*` tag（用户要求的主检测源）；

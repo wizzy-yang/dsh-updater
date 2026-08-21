@@ -1,5 +1,5 @@
 /**
- * @dsh-external/dsh-updater — client 侧：侧栏设置按钮旁的「更新」按钮
+ * @wizzy/dsh-updater — client 侧：侧栏设置按钮旁的「更新」按钮
  *
  * 注册到 sidebar.footer.action（列表槽，紧邻设置按钮）：
  * - 宽列：整行按钮（图标 + 文案），收窄为 rail 时只剩图标 + 角标圆点；
@@ -265,6 +265,6 @@ export function apply(ctx: ClientContext): void {
           (props: { wide: boolean }) => React.createElement(UpdaterButton, props),
         ),
       ),
-    '@dsh-external/dsh-updater: footer action',
+    '@wizzy/dsh-updater: footer action',
   )
 }
