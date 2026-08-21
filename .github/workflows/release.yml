@@ -28,8 +28,14 @@ jobs:
       - name: Build client (tsdown)
         run: npx tsdown
 
+      - name: Check NPM_TOKEN
+        id: check_npm
+        env:
+          TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: echo "has_token=${{ env.TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+
       - name: Publish to npm
-        if: env.NODE_AUTH_TOKEN != ''
+        if: steps.check_npm.outputs.has_token == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish
