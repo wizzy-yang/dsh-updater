@@ -11,35 +11,36 @@ cd "$ROOT"
 DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
 PROFILE_NM="$DSH_HOME/profiles/node_modules"
 
-if [ ! -d "$PROFILE_NM" ]; then
-  echo "build: cannot locate the profile node_modules registry at $PROFILE_NM" >&2
-  exit 1
-fi
-
 TSC="node_modules/.bin/tsc"
 if [ ! -x "$TSC" ] && [ ! -f "$TSC.cmd" ]; then
   echo "build: tsc not found at $TSC (run: npm i -D typescript)" >&2
   exit 1
 fi
 
-link_pkg() {
-  local link="$1"
-  local target="$2"
-  node -e "
-    const fs = require('fs');
-    const path = require('path');
-    const link = path.resolve(process.argv[1]);
-    const target = path.resolve(process.argv[2]);
-    fs.rmSync(link, { recursive: true, force: true });
-    fs.mkdirSync(path.dirname(link), { recursive: true });
-    fs.symlinkSync(target, link, process.platform === 'win32' ? 'junction' : 'dir');
-  " "$link" "$target"
-}
-
-echo "=== Linking compile-time deps (registry: $PROFILE_NM) ==="
-mkdir -p node_modules/@deepseek-ai
-link_pkg node_modules/cordis "$PROFILE_NM/@deepseek-ai/cordis"
-link_pkg node_modules/@types/node "$PROFILE_NM/@types/node"
+if [ -d "$PROFILE_NM" ]; then
+  # 本机路径：类型依赖从 profile node_modules 注册表 junction 链接（与注入器运行时一致）
+  link_pkg() {
+    local link="$1"
+    local target="$2"
+    node -e "
+      const fs = require('fs');
+      const path = require('path');
+      const link = path.resolve(process.argv[1]);
+      const target = path.resolve(process.argv[2]);
+      fs.rmSync(link, { recursive: true, force: true });
+      fs.mkdirSync(path.dirname(link), { recursive: true });
+      fs.symlinkSync(target, link, process.platform === 'win32' ? 'junction' : 'dir');
+    " "$link" "$target"
+  }
+  echo "=== Linking compile-time deps (registry: $PROFILE_NM) ==="
+  mkdir -p node_modules/@deepseek-ai
+  link_pkg node_modules/cordis "$PROFILE_NM/@deepseek-ai/cordis"
+  link_pkg node_modules/@types/node "$PROFILE_NM/@types/node"
+else
+  # CI / 裸环境回退：直接从 npm 安装编译期类型依赖
+  echo "=== Profile registry not found, installing compile-time deps from npm ==="
+  npm install --no-save cordis@">=4.0.0-rc <5" @types/node@">=24 <27"
+fi
 
 echo "=== Compiling src → lib ==="
 "$TSC" -p tsconfig.json

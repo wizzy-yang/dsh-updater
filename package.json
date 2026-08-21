@@ -2,13 +2,15 @@
   "name": "@dsh-external/dsh-updater",
   "version": "0.1.0",
   "description": "DSH 自动更新：自动检测官方 GitHub（deepseek-ai/deepseek-harness）新版本，侧栏设置按钮旁一键全自动升级（npm 安装 + 自动重启）",
-  "private": true,
   "type": "module",
   "main": "./lib/index.js",
   "types": "./lib/types/index.d.ts",
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "BSD-3-Clause",
   "author": "wizzy-yang",
   "repository": {

@@ -1,6 +1,7 @@
 # @dsh-external/dsh-updater
 
 [![Release](https://img.shields.io/github/v/release/wizzy-yang/dsh-updater?include_prereleases&label=%E7%89%88%E6%9C%AC)](https://github.com/wizzy-yang/dsh-updater/releases)
+[![npm](https://img.shields.io/npm/v/%40dsh-external%2Fdsh-updater?style=flat-square&label=npm)](https://www.npmjs.com/package/@dsh-external/dsh-updater)
 [![Platform](https://img.shields.io/badge/platform-Windows-blue)](#%E5%B9%B3%E5%8F%B0%E6%94%AF%E6%8C%81)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-green)](LICENSE)
 
@@ -18,7 +19,17 @@ DSH（DeepSeek Harness）自动更新插件：自动检测官方 GitHub 仓库�
 
 ## 安装
 
-### 方式一：下载 Release（推荐，无需构建工具链）
+### 方式一：从 npm 安装（推荐，一条命令）
+
+```sh
+dsh plugin --profile web add @dsh-external/dsh-updater@latest
+```
+
+装完重启 `dsh web`，侧栏底部即出现更新按钮。升级插件也用同一条命令（npm 拉新版）。
+
+> **装到了旧版本？** pnpm 11+ 默认的发布年龄门禁（`minimumReleaseAge`，内置 24 小时）会把新发布的版本静默隔离；在 profile 的 `pnpm-workspace.yaml` 加 `minimumReleaseAgeExclude: ['@dsh-external/*']` 后重装即可。
+
+### 方式二：下载 Release（无需构建工具链）
 
 从 [Releases](https://github.com/wizzy-yang/dsh-updater/releases) 下载 `*.tgz`，解压到任意目录后注入：
 
@@ -36,7 +47,7 @@ dev_install_package dir=~/.dsh/plugins/dsh-updater profile=web   # 或持久装�
 
 刷新 Web 界面，侧栏底部即出现更新按钮。
 
-### 方式二：克隆构建
+### 方式三：克隆构建
 
 ```bash
 git clone https://github.com/wizzy-yang/dsh-updater.git
