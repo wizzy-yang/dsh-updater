@@ -25,7 +25,7 @@ import { dirname, join } from 'node:path'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 
-export const name = '@dsh-external/dsh-updater'
+export const name = '@wizzy/dsh-updater'
 export const inject = ['webServer']
 
 type AppContext = Context & {
