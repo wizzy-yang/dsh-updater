@@ -1,7 +1,7 @@
-# @wizzy/dsh-updater
+# @wizzy-1547/dsh-updater
 
 [![Release](https://img.shields.io/github/v/release/wizzy-yang/dsh-updater?include_prereleases&label=%E7%89%88%E6%9C%AC)](https://github.com/wizzy-yang/dsh-updater/releases)
-[![npm](https://img.shields.io/npm/v/%40wizzy%2Fdsh-updater?style=flat-square&label=npm)](https://www.npmjs.com/package/@wizzy/dsh-updater)
+[![npm](https://img.shields.io/npm/v/%40wizzy-1547%2Fdsh-updater?style=flat-square&label=npm)](https://www.npmjs.com/package/@wizzy-1547/dsh-updater)
 [![Platform](https://img.shields.io/badge/platform-Windows-blue)](#%E5%B9%B3%E5%8F%B0%E6%94%AF%E6%8C%81)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-green)](LICENSE)
 
@@ -22,12 +22,12 @@ DSH（DeepSeek Harness）自动更新插件：自动检测官方 GitHub 仓库�
 ### 方式一：从 npm 安装（推荐，一条命令）
 
 ```sh
-dsh plugin --profile web add @wizzy/dsh-updater@latest
+dsh plugin --profile web add @wizzy-1547/dsh-updater@latest
 ```
 
 装完重启 `dsh web`，侧栏底部即出现更新按钮。升级插件也用同一条命令（npm 拉新版）。
 
-> **装到了旧版本？** pnpm 11+ 默认的发布年龄门禁（`minimumReleaseAge`，内置 24 小时）会把新发布的版本静默隔离；在 profile 的 `pnpm-workspace.yaml` 加 `minimumReleaseAgeExclude: ['@wizzy/*']` 后重装即可。
+> **装到了旧版本？** pnpm 11+ 默认的发布年龄门禁（`minimumReleaseAge`，内置 24 小时）会把新发布的版本静默隔离；在 profile 的 `pnpm-workspace.yaml` 加 `minimumReleaseAgeExclude: ['@wizzy-1547/*']` 后重装即可。
 
 ### 方式二：下载 Release（无需构建工具链）
 
@@ -35,7 +35,7 @@ dsh plugin --profile web add @wizzy/dsh-updater@latest
 
 ```bash
 mkdir -p ~/.dsh/plugins/dsh-updater
-tar -xzf wizzy-dsh-updater-<版本>.tgz -C ~/.dsh/plugins/dsh-updater --strip-components=1
+tar -xzf wizzy-1547-dsh-updater-<版本>.tgz -C ~/.dsh/plugins/dsh-updater --strip-components=1
 ```
 
 然后在 DSH 会话中让 agent 执行：
