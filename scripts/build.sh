@@ -37,9 +37,14 @@ if [ -d "$PROFILE_NM" ]; then
   link_pkg node_modules/cordis "$PROFILE_NM/@deepseek-ai/cordis"
   link_pkg node_modules/@types/node "$PROFILE_NM/@types/node"
 else
-  # CI / 裸环境回退：直接从 npm 安装编译期类型依赖
+  # CI / 裸环境回退：直接从 npm 安装编译期类型依赖。
+  # 注意用 @deepseek-ai/cordis（DSH 的 cordis fork，导出 Context）；
+  # 官方 cordis 4.0.0-rc 无 Context 导出，会编译失败。
   echo "=== Profile registry not found, installing compile-time deps from npm ==="
-  npm install --no-save cordis@">=4.0.0-rc <5" @types/node@">=24 <27"
+  mkdir -p node_modules/@deepseek-ai
+  npm install --no-save "@deepseek-ai/cordis@>=4.0.0 <5" "@types/node@>=24 <27"
+  rm -rf node_modules/cordis
+  ln -s @deepseek-ai/cordis node_modules/cordis
 fi
 
 echo "=== Compiling src → lib ==="
