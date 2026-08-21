@@ -1,0 +1,62 @@
+{
+  "name": "@dsh-external/dsh-updater",
+  "version": "0.1.0",
+  "description": "DSH 自动更新：自动检测官方 GitHub（deepseek-ai/deepseek-harness）新版本，侧栏设置按钮旁一键全自动升级（npm 安装 + 自动重启）",
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "license": "BSD-3-Clause",
+  "author": "wizzy-yang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wizzy-yang/dsh-updater.git"
+  },
+  "homepage": "https://github.com/wizzy-yang/dsh-updater#readme",
+  "bugs": {
+    "url": "https://github.com/wizzy-yang/dsh-updater/issues"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "updater",
+    "auto-update",
+    "cordis-plugin"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/dsh-client-ui-slots": ">=0.0.1-rc <2",
+    "cordis": ">=4.0.0-rc <5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "tsdown": "^0.22.14",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build:client": "tsdown"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  }
+}
