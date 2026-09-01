@@ -40,9 +40,10 @@ else
   # CI / 裸环境回退：直接从 npm 安装编译期类型依赖。
   # 注意用 @deepseek-ai/cordis（DSH 的 cordis fork，导出 Context）；
   # 官方 cordis 4.0.0-rc 无 Context 导出，会编译失败。
+  # --legacy-peer-deps：规避 npm Arborist edgesOut 空指针崩溃（CI 实测踩坑）
   echo "=== Profile registry not found, installing compile-time deps from npm ==="
   mkdir -p node_modules/@deepseek-ai
-  npm install --no-save "@deepseek-ai/cordis@>=4.0.0 <5" "@types/node@>=24 <27"
+  npm install --no-save --legacy-peer-deps "@deepseek-ai/cordis@>=4.0.0 <5" "@types/node@>=24 <27"
   rm -rf node_modules/cordis
   ln -s @deepseek-ai/cordis node_modules/cordis
 fi

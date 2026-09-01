@@ -20,7 +20,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install build dependencies
-        run: npm install --no-save typescript tsdown @types/node
+        # --legacy-peer-deps：规避 npm Arborist "Cannot read properties of null
+        # (reading 'edgesOut')" 崩溃（--no-save + peerDeps 自动安装时触发）
+        run: npm install --no-save --legacy-peer-deps typescript tsdown @types/node
 
       - name: Build host (tsc)
         run: bash scripts/build.sh
