@@ -1,0 +1,5 @@
+# dsh-updater bundle 层：挂载自动更新插件（宿主入口；客户端注入走 package.json 的 dsh.client）。
+- insert:
+    - id: dsh-updater
+      name: '@wizzy-1547/dsh-updater'
+      config: {}

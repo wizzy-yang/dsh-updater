@@ -5,10 +5,19 @@ lib/
 # 依赖
 node_modules/
 
-# 运行时产物（升级器在用户机器上生成）
+# 运行时产物（升级器在用户机器上生成；stateDir 就是插件目录本身）
 upgrade.log
 upgrade.ps1
 relaunch.cmd
+rollback.cmd
+run-upgrade.cmd
+upgrade.mjs
+progress-server.mjs
+progress.json
+progress-server.ready
+github-out.log
+dsh-src-*.tar.gz
+backup-*/
 npm-stdout.log
 npm-stderr.log
 package-lock.json

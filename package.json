@@ -1,6 +1,6 @@
 {
   "name": "@wizzy-1547/dsh-updater",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "DSH 自动更新：自动检测官方 GitHub（deepseek-ai/deepseek-harness）新版本，侧栏设置按钮旁一键全自动升级（npm 安装 + 自动重启）",
   "type": "module",
   "main": "./lib/index.js",
@@ -55,10 +55,12 @@
   "dsh": {
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-runtime",
         "@deepseek-ai/dsh-client-ui-slots"
       ],
       "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
     }
   }
 }
