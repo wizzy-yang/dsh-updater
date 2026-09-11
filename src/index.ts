@@ -36,7 +36,7 @@ export const name = '@wizzy-1547/dsh-updater'
 export const inject = ['webServer']
 /** 插件构建标识：/status 暴露 + 启动日志打印，用于确认运行中的宿主加载的是最新构建
  *  （2026-08-29 实测踩坑：旧实例占着 3080，新构建没被加载，升级跑了旧逻辑） */
-export const PLUGIN_BUILD = '2026-08-29-detailed-window'
+export const PLUGIN_BUILD = '2026-09-11-version-stage-fix'
 
 type AppContext = Context & {
   webServer: {
@@ -106,25 +106,34 @@ function tagToVersion(tag: string): string | null {
   return /^\d+\.\d+\.\d+/.test(s) ? s : null
 }
 
-/** 解析 0.1.0 / 0.1.0-rc.7 → [主, 次, 补丁, 预发布号|null] */
-function parseVersion(v: string): [number, number, number, number | null] | null {
-  const m = /^(\d+)\.(\d+)\.(\d+)(?:-(?:rc|beta|alpha)\.?(\d+))?$/.exec(v.trim())
+/**
+ * 解析 0.1.0 / 0.1.0-rc.7 → [主, 次, 补丁, 阶段等级, 预发布号|null]
+ *
+ * 阶段等级：alpha=0 < beta=1 < rc=2 < 正式版=3。
+ * 必须保留阶段名：早期实现只取预发布号，导致 `0.1.5-rc.2` 与 `0.1.5-alpha.2`
+ * 解析结果完全相同（都为 [0,1,5,2]），于是 rc 被视为与 alpha 同级，
+ * 新标签既不会被排序选中、也不会被判定为「有更新」。
+ */
+function parseVersion(v: string): [number, number, number, number, number | null] | null {
+  const m = /^(\d+)\.(\d+)\.(\d+)(?:-(alpha|beta|rc)\.?(\d+))?$/.exec(v.trim())
   if (!m) return null
-  return [Number(m[1]), Number(m[2]), Number(m[3]), m[4] !== undefined ? Number(m[4]) : null]
+  const stage = m[4] === undefined ? 3 : m[4] === 'alpha' ? 0 : m[4] === 'beta' ? 1 : 2
+  return [Number(m[1]), Number(m[2]), Number(m[3]), stage, m[5] !== undefined ? Number(m[5]) : null]
 }
 
-/** a>b 返回正数，a<b 返回负数，相等 0；预发布 < 正式版 */
+/** a>b 返回正数，a<b 返回负数，相等 0；alpha < beta < rc < 正式版 */
 function compareVersions(a: string, b: string): number {
   const pa = parseVersion(a)
   const pb = parseVersion(b)
   if (pa && pb) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const ai = pa[i] as number
       const bi = pb[i] as number
       if (ai !== bi) return ai - bi
     }
-    const ra = pa[3]
-    const rb = pb[3]
+    // 同为同一阶段（或同为正式版）：比预发布序号，无序号的前者更大（rc 无号 = rc.0 之后的收尾）
+    const ra = pa[4]
+    const rb = pb[4]
     if (ra !== null && rb !== null) return ra - rb
     if (ra !== null) return -1
     if (rb !== null) return 1

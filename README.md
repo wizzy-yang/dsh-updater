@@ -15,6 +15,7 @@ DSH（DeepSeek Harness）自动更新插件：自动检测官方 GitHub 仓库�
 - **如实提示**：官方已发新版但 npm 未发布时，按钮变为黄色「新版本 vX.Y.Z 待 npm 发布」，不提供误导性升级；npm 发布后自动恢复可升级状态。
 - **一键升级**：点击「立即升级」→ 确认 → 脱离进程自动执行安装 → 以原启动命令重开 dsh 控制台（保留 `DSH_*` 环境变量）→ 旧进程自动退出，页面随服务重启恢复。
 - **检测源**：官方 GitHub tags 为主，GitHub 不可用时回退 npm registry，两者版本一致。
+- **版本比较**：完整遵循语义化版本，预发布阶段优先级 `alpha < beta < rc < 正式版`。比较时阶段名参与排序，`0.1.5-rc.2` 正确判定为高于 `0.1.5-alpha.2`（早期实现忽略阶段名，曾导致 rc 与 alpha 同级、从而漏报更新）。
 - **排障**：升级日志写入 `~/.dsh/plugins/dsh-updater/upgrade.log`，API `GET /dsh-updater/api/log` 可读尾部。
 
 ## 安装
